@@ -14,10 +14,6 @@ const removeTodo = (todo) => {
   todoStore.removeTodo(todo);
 }
 
-onMounted(() => {
-  todos.value = todoStore.todos;
-});
-
 </script>
 
 <template>
