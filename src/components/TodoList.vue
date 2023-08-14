@@ -1,35 +1,27 @@
-<script>
-import {ref, onMounted, computed, watch } from 'vue';
-import { useTodoStore } from '../stores/TodoStore';
-import { storeToRefs } from "pinia";
-
+<script setup>
+import {ref, onMounted, computed } from 'vue';
+import { useTodoStore } from '../stores/TodoStore'
 
 const todoStore = useTodoStore();
 
-const {todos} = storeToRefs(todoStore);
+const todos = ref(todoStore.todos);
 
 const todos_asc = computed(() => todos.value.sort((a,b) => {
   return b.createdAt - a.createdAt;
 }));
 
 const removeTodo = (todo) => {
-  todos.value = todos.value.filter(t => t !== todo);
+  todoStore.removeTodo(todo);
 }
 
-watch(todos, newVal => {
-  localStorage.setItem('todos', JSON.stringify(newVal));
-}, {deep: true});
-
-
 onMounted(() => {
-  todos.value =JSON.parse(localStorage.getItem('todos'));
+  todos.value = todoStore.todos;
 });
 
 </script>
 
 <template>
     <section class="todo-list">
-      <h3>TODO LIST</h3>
       <div class="list">
         <div v-for="todo in todos_asc" :class="`todo-item ${todo.done && 'done'}`">
           <label>

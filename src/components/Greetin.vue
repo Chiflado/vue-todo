@@ -1,5 +1,5 @@
 <script setup>
-import {ref, onMounted, computed, watch } from 'vue';
+import {ref, onMounted, watch } from 'vue';
 
 const name = ref('');
 
